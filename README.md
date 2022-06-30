@@ -1,3 +1,6 @@
+## Managment System
+본 프로젝트는 실시간 마스크 인식 프로그램을 관리하기 위해 만들어진 프로젝트입니다.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
