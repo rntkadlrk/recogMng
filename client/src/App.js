@@ -6,19 +6,19 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
-import { withStyles } from '@mui/material/styles';
+//import { withStyles } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-const styles = theme => ({
-  root:{
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto"
-  },
-  table:{
-    minWidth: 1080
-  }
-})
+// const styles = theme => ({
+//   root:{
+//     width: '100%',
+//     marginTop: theme.spacing.unit * 3,
+//     overflowX: "auto"
+//   },
+//   table:{
+//     minWidth: 1080
+//   }
+// })
 
 const customers = [{
   'id':1,
@@ -47,10 +47,10 @@ const customers = [{
 
 
 function App(props) {
-  const {classes} = props.styles;
+  //const {classes} = props.styles;
   return(
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
+    <Paper >
+      <Table >
         <TableHead>
           <TableRow>
             <TableCell>번호</TableCell>
@@ -71,4 +71,4 @@ function App(props) {
   );
 }
 
-export default withStyles(styles)(App);
+export default App;
