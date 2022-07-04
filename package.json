@@ -1,16 +1,17 @@
 {
     "name": "recog-web",
-    "version" : "1.0.0",
-    "scripts":{
-        "client" : "cd clinet && npm run start",
-        "server" : "nodemon server.js",
-        "dev" : "concurrently --kill-others-onfail \"npm server\" \"npm client\""
+    "version": "1.0.0",
+    "scripts": {
+        "client": "cd ./client && npm run start",
+        "server": "nodemon ./server.js",
+        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
     },
     "dependencies": {
-        "body-parser" : "^1.18.3",
-        "express" : "^4.16.4"
+        "body-parser": "^1.18.3",
+        "express": "^4.16.4",
+        "react-redux": "^8.0.2"
     },
     "devDependencies": {
-        "concurrently" : "^4.0.1"
+        "concurrently": "^4.0.1"
     }
 }

@@ -1,4 +1,4 @@
-import React, { Components } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 import Customer from './components/Customer';
 import Table from '@mui/material/Table';
@@ -8,6 +8,12 @@ import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
 //import { withStyles } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
 // const styles = theme => ({
 //   root:{
@@ -20,55 +26,34 @@ import Paper from '@mui/material/Paper';
 //   }
 // })
 
-const customers = [{
-  'id':1,
-  'image' : 'https://placeimg.com/64/64/1',
-  'name' : '홍길동',
-  'birthday' : '111111',
-  'gender' : '남자',
-  'job' : '대학생'
-},
-{
-  'id':2,
-  'image' : 'https://placeimg.com/64/64/2',
-  'name' : '홍길동',
-  'birthday' : '222222',
-  'gender' : '남자',
-  'job' : '프로그래머'
-}
-,{
-  'id':3,
-  'image' : 'https://placeimg.com/64/64/3',
-  'name' : '홍길동',
-  'birthday' : '333333',
-  'gender' : '남자',
-  'job' : '디자이너'
-}]
 
-
-function App(props) {
+function App() {
   //const {classes} = props.styles;
-  return(
-    <Paper >
-      <Table >
-        <TableHead>
-          <TableRow>
-            <TableCell>번호</TableCell>
-            <TableCell>이미지</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>생년원일</TableCell>
-            <TableCell>성별</TableCell>
-            <TableCell>직업</TableCell>
-          </TableRow>
-        </TableHead> 
-        <TableBody>
-         
-          {customers.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)})}
-          
-        </TableBody>
-      </Table>
-    </Paper>
+
+    // const [customersData, setCustomersData] = useState([]);
+  
+    // const callApi = async () => {
+    //   const response = await fetch('/api/customers');
+    //   const body = await response.json();
+    //  // console.log("" + body);    //TODO: 콘솔 찍어보셈
+    //   return body;
+    // };
+    
+    // useEffect(() => {
+    //   callApi().then((data) => setCustomersData(data));
+    // }, []);
+    // //console.log(customersData); 
+  
+    return(
+    <Router>
+      <div>
+        <Routes>
+          <Route exact path="/customers" element={<Customer/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
+  
 }
 
 export default App;
