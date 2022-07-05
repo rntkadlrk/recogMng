@@ -11,7 +11,7 @@ app.get('/api/customers', (req, res) => {
    console.log("customers API");
 
    res.send({
-    customer: [{
+    customers: [{
       'id':1,
       'image' : 'https://placeimg.com/64/64/1',
       'name' : '홍길동',
@@ -33,6 +33,46 @@ app.get('/api/customers', (req, res) => {
       'name' : '홍길동',
       'birthday' : '333333',
       'gender' : '남자',
+      'job' : '디자이너'
+    }
+    ,{
+      'id':4,
+      'image' : 'https://placeimg.com/64/64/4',
+      'name' : '홍길동',
+      'birthday' : '444444',
+      'gender' : '여자',
+      'job' : '디자이너'
+    }
+    ,{
+      'id':4,
+      'image' : 'https://placeimg.com/64/64/4',
+      'name' : '홍길동',
+      'birthday' : '444444',
+      'gender' : '여자',
+      'job' : '디자이너'
+    }
+    ,{
+      'id':4,
+      'image' : 'https://placeimg.com/64/64/4',
+      'name' : '홍길동',
+      'birthday' : '444444',
+      'gender' : '여자',
+      'job' : '디자이너'
+    }
+    ,{
+      'id':4,
+      'image' : 'https://placeimg.com/64/64/4',
+      'name' : '홍길동',
+      'birthday' : '444444',
+      'gender' : '여자',
+      'job' : '디자이너'
+    }
+    ,{
+      'id':4,
+      'image' : 'https://placeimg.com/64/64/4',
+      'name' : '홍길동',
+      'birthday' : '444444',
+      'gender' : '여자',
       'job' : '디자이너'
     }
     ,{

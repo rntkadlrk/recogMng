@@ -1,15 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
+// 디자인
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
-//import { withStyles } from '@mui/material/styles';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+function CircularIndeterminate() {
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CircularProgress />
+    </Box>
+  );
+}
 
 function Customer(){
    // const navigate = useNavigate();
@@ -19,9 +27,9 @@ function Customer(){
       axios.get('/api/customers')
       .then(response => {
         // 수행할 동작
-        // console.log(response.data.customer)
+        // console.log(response.data.customers)
         
-        setCustomersData(response.data.customer);
+        setCustomersData(response.data.customers);
       })
       
     }, []);
