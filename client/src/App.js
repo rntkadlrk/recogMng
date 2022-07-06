@@ -7,7 +7,6 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import axios from 'axios';
 
 // const styles = theme => ({
 //   root:{
@@ -25,7 +24,6 @@ function App() {
 
     const [scroll, setScroll] = useState(0);
 
-      
     useEffect(() => {
 
       let progressBarHandler = () => {
@@ -42,7 +40,6 @@ function App() {
       return () => window.removeEventListener("scroll", progressBarHandler);
     });
 
-    
     return(
     <Router>
       <div className="App">

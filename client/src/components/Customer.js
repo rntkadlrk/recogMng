@@ -48,8 +48,8 @@ function Customer(){
          {CustomersData.map((rows)=>{
           return(
             
-            <TableRow key={rows.id}>
-              <TableCell>{rows.id}</TableCell>
+            <TableRow key={rows.seq}>
+              <TableCell>{rows.seq}</TableCell>
               <TableCell><img src={rows.image} alt="profile"/></TableCell>
               <TableCell>{rows.name}</TableCell>
               <TableCell>{rows.birthday}</TableCell>
