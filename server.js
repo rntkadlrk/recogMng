@@ -11,6 +11,7 @@ app.get('/api/customers', (req, res) => {
    console.log("customers API");
 
    res.send({
+  
     customers: [{
       'id':1,
       'image' : 'https://placeimg.com/64/64/1',
