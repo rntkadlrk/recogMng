@@ -8,26 +8,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-
-function CircularIndeterminate() {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CircularProgress />
-    </Box>
-  );
-}
 
 function Customer(){
    // const navigate = useNavigate();
     const [CustomersData, setCustomersData] = useState([]);
 
     useEffect(() => {
-      axios.get('/api/customers')
+      axios.get('/api/test')
       .then(response => {
         // 수행할 동작
-        // console.log(response.data.customers)
+         console.log(response)
         
         setCustomersData(response.data.customers);
       })

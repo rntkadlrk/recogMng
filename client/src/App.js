@@ -1,19 +1,13 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Customer from './components/Customer';
-import Table from '@mui/material/Table';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
-//import { withStyles } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+import axios from 'axios';
 
 // const styles = theme => ({
 //   root:{
@@ -28,21 +22,6 @@ import {
 
 
 function App() {
-  //const {classes} = props.styles;
-
-    // const [customersData, setCustomersData] = useState([]);
-  
-    // const callApi = async () => {
-    //   const response = await fetch('/api/customers');
-    //   const body = await response.json();
-    //  // console.log("" + body);    //TODO: 콘솔 찍어보셈
-    //   return body;
-    // };
-    
-    // useEffect(() => {
-    //   callApi().then((data) => setCustomersData(data));
-    // }, []);
-    // //console.log(customersData); 
 
     const [scroll, setScroll] = useState(0);
 
@@ -62,6 +41,8 @@ function App() {
 
       return () => window.removeEventListener("scroll", progressBarHandler);
     });
+
+    
     return(
     <Router>
       <div className="App">
@@ -71,6 +52,7 @@ function App() {
       </div>
         <Routes>
           <Route exact path="/customers" element={<Customer/>}/>
+          <Route exact path="/test" element={<Customer/>}/>
         </Routes>
         
       </div>

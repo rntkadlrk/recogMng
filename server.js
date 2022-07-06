@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5001;
-
+const db = require('./server/config/db')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -86,5 +86,15 @@ app.get('/api/customers', (req, res) => {
   ]});
       
 });
+
+
+
+app.get('/api/test', (req, res) => {
+  db.query('SELECT * FROM maskTable', (err, data) => {
+    if(!err) res.send({ customers : data});
+    else res.send(err);
+  })
+})
+
 
 app.listen(port, ()=> console.log(`Listening on port ${port}`));
