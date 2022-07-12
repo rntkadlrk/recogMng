@@ -5,7 +5,6 @@ const port = process.env.PORT || 5001;
 const db = require('./server/config/db')
 const multer = require('multer');
 const upload = multer({dest: './upload'})
-const imageCompression = require('browser-image-comression');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

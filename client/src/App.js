@@ -42,7 +42,7 @@ function App() {
 
     return(
     <Router>
-      <div className="App">
+      <div className="root">
       <div id="progressBarContainer">
        <div id="progressBar" style={{transform: `scale(${scroll}, 1)`, opacity: `${scroll}`}} />
 
