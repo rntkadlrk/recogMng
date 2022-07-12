@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5001;
 const db = require('./server/config/db')
+const multer = require('multer');
+const upload = multer({dest: './upload'})
+const imageCompression = require('browser-image-comression');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -91,11 +94,34 @@ app.get('/api/customers', (req, res) => {
 
 
 app.get('/api/test', (req, res) => {
-  db.query('SELECT * FROM maskTable', (err, data) => {
+  db.query('SELECT * FROM maskTable WHERE isDeleted = 0', (err, data) => {
     if(!err) res.send({ customers : data});
     else res.send(err);
   })
 })
 
+app.use('/image',express.static('./upload'));
+app.post('/api/test', upload.single('image'),(req,res) =>{
+  let sql  = "INSERT INTO masktable VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
+  let image = 'http://localhost:5001/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  let params = [name, image , birthday, gender, job];
+  db.query(sql, params, 
+    (err, rows, fields) =>{
+      res.send(rows);
+    })
+})
 
+app.delete('/api/customers/:seq', (req,res) =>{
+  let sql = 'UPDATE masktable SET isDeleted = 1 WHERE seq = ?';
+  let params = [req.params.seq];
+  db.query(sql, params,(
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  ))
+})
 app.listen(port, ()=> console.log(`Listening on port ${port}`));
