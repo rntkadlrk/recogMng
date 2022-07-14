@@ -10,8 +10,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 
-
-
 function CustomerAdd(){
 
     const [File, setFile] = useState('');
@@ -71,15 +69,14 @@ function CustomerAdd(){
         setOpen(false);
     }
 
-
-
-
-
-
     const addCustomer = ()=>{
         const url = '/api/test';
         const formData = new FormData();
-        formData.append('image',File)
+        formData.append('image', File)
+        if(UserName===''){
+            alert('이름을 입력해주세요.');
+            return;
+        }
         formData.append('name', UserName);
         formData.append('birthday', Birthday);
         formData.append('gender', Gender);
@@ -100,7 +97,7 @@ function CustomerAdd(){
             </Button>
             <Box 
             sx ={{
-                marginTop: 8,
+               
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',

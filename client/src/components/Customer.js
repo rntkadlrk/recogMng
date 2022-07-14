@@ -10,6 +10,10 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import CustomerDelete from './CustomerDelete';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
+
+
 
 function Customer(){
    // const navigate = useNavigate();
@@ -34,11 +38,28 @@ function Customer(){
 
     return (
       <div>
-        <Paper >
+         <Box sx={{
+               marginTop: 2,
+               marginBottom: 2,
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center',
+          }}>
+          <div className="menu">
+           <CustomerAdd/>
+          </div>
+          </Box>
+         
+        <Paper sx={{
+          marginLeft: 3,
+          marginRight: 3,
+        }}>
+         
+        
           <Table >
             <TableHead>
               <TableRow>
-                <TableCell>등록번호</TableCell>
+                <TableCell >등록번호</TableCell>
                 <TableCell>이미지</TableCell>
                 <TableCell>이름</TableCell>
                 <TableCell>생년원일</TableCell>
@@ -47,6 +68,7 @@ function Customer(){
                 <TableCell>삭제</TableCell>
               </TableRow>
             </TableHead> 
+            
             <TableBody>
             
             {/* {Customer.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)})}  */}
@@ -55,7 +77,7 @@ function Customer(){
                 
                 <TableRow key={rows.seq}>
                   <TableCell>{rows.seq}</TableCell>
-                  <TableCell><img src={rows.image} alt="profile"/></TableCell>
+                  <TableCell>{rows.image === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell>
                   <TableCell>{rows.name}</TableCell>
                   <TableCell>{rows.birthday}</TableCell>
                   <TableCell>{rows.gender}</TableCell>
@@ -69,7 +91,7 @@ function Customer(){
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd/>
+        
       </div>
     );
 }

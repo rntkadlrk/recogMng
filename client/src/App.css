@@ -49,3 +49,9 @@ p:first-of-type {
 .root{
   width: '100%'
 }
+.menu{
+  margin-top: 15;
+  margin-bottom: 15;
+  display: 'flex';
+  justify-content: 'center';
+}

@@ -4,10 +4,21 @@ const app = express();
 const port = process.env.PORT || 5001;
 const db = require('./server/config/db')
 const multer = require('multer');
-const upload = multer({dest: './upload'})
+const upload = multer({dest: './upload'});
+const config = require('./server/config/key');
+const {auth} = require('./server/middleware/auth');
+const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+
+
+// db.connect(config.mongoURI,{
+//   useNewUrlParser: true, useUnifiedTopology: true
+//   // 안쓰면 에러 발생할 수 있음
+// }).then(() => console.log('DB Connected...')).catch(err => console.log(err));
+
 
 app.get('/api/customers', (req, res) => {
    console.log("customers API");
@@ -102,7 +113,8 @@ app.get('/api/test', (req, res) => {
 app.use('/image',express.static('./upload'));
 app.post('/api/test', upload.single('image'),(req,res) =>{
   let sql  = "INSERT INTO masktable VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
-  let image = 'http://localhost:5001/image/' + req.file.filename;
+  //console.log(req);
+  let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
   let name = req.body.name;
   let birthday = req.body.birthday;
   let gender = req.body.gender;
