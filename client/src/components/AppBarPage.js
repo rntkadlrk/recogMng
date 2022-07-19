@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -10,14 +11,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import Container from '@mui/material/Container';
-// import Avatar from '@mui/material/Avatar';
-// import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
+ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Menu from '@mui/material/Menu';
 import Camera from '@mui/icons-material/Camera';
-import { Navigate, useNavigate } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+//import {useDispatch} from 'react-redux';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -66,8 +67,8 @@ function AppBarPage(){
     const navigate = useNavigate();
    // let dispatch = useDispatch();
 
-    const pages = ['USER', 'HISTORY'];
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const pages = ['USER', 'SEARCH'];
+    const settings = ['Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -84,9 +85,9 @@ function AppBarPage(){
       const Target = e.currentTarget.innerText;
       console.log(Target);
       if(Target === 'USER'){
-        navigate('/test');
-      }else if(Target === 'HISTORY'){
-        navigate('/api/customers');
+        navigate('/user');
+      }else if(Target === 'SEARCH'){
+        navigate('/searchPage');
       }
        
         // const Target = e.currentTarget.innerText;
@@ -100,8 +101,12 @@ function AppBarPage(){
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const logoClickHandler = () =>{
+      navigate('/');
+    };
 
     return(
+      <div>
       <Box sx={{ flexGrow: 1 }}>
       {/* <AppBar position="static">
         <Toolbar>
@@ -136,7 +141,7 @@ function AppBarPage(){
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={logoClickHandler}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -218,7 +223,7 @@ function AppBarPage(){
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings">
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -244,7 +249,9 @@ function AppBarPage(){
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu> */}
+            </Menu>
+
+{/*             
             <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -253,12 +260,13 @@ function AppBarPage(){
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search> */}
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
     </Box>
+    </div>
     );
 }
 

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {useState} from 'react';
 //import axios from 'axios';
 import { post } from 'axios';
@@ -70,7 +72,7 @@ function CustomerAdd(){
     }
 
     const addCustomer = ()=>{
-        const url = '/api/test';
+        const url = '/api/user';
         const formData = new FormData();
         formData.append('image', File)
         if(UserName===''){
@@ -113,10 +115,10 @@ function CustomerAdd(){
                         </Button>
                     </label>
                     <br/><br/>
-                    <TextField required label="이름" type="text" name="userName" value={UserName} onChange={onUserNameHandler}/><br/>
-                    <TextField type="date" name="birthday" value={Birthday} onChange={onBirthdayHandler}/><br/>
-                    <TextField label="성별" type="text" name="gender" value={Gender} onChange={onGenderHandler}/><br/>
-                    <TextField label="직업" type="text" name="job" value={Job} onChange={onJobHandler}/><br/>
+                    <TextField label=" " type="date" variant="standard" name="birthday" value={Birthday} onChange={onBirthdayHandler}/><br/>
+                    <TextField required variant="standard" label="이름" type="text" name="userName" value={UserName} onChange={onUserNameHandler}/><br/>
+                    <TextField label="성별" variant="standard" type="text" name="gender" value={Gender} onChange={onGenderHandler}/><br/>
+                    <TextField label="직업" variant="standard" type="text" name="job" value={Job} onChange={onJobHandler}/><br/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant='contained' color='primary' onClick={onSubmitHandler}>추가</Button>

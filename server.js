@@ -103,16 +103,24 @@ app.get('/api/customers', (req, res) => {
 
 
 
-app.get('/api/test', (req, res) => {
-  db.query('SELECT * FROM maskTable WHERE isDeleted = 0', (err, data) => {
+app.get('/api/user', (req, res) => {
+  db.query('SELECT * FROM user WHERE isDeleted = 0', (err, data) => {
     if(!err) res.send({ customers : data});
     else res.send(err);
   })
 })
 
+app.get('/api/searchPage', (req, res) => {
+  db.query('SELECT * FROM masktable ORDER BY 1 DESC', (err, data) => {
+    if(!err) res.send({ history : data});
+    else res.send(err);
+  })
+})
+
 app.use('/image',express.static('./upload'));
-app.post('/api/test', upload.single('image'),(req,res) =>{
-  let sql  = "INSERT INTO masktable VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
+
+app.post('/api/user', upload.single('image'),(req,res) =>{
+  let sql  = "INSERT INTO user VALUES ( null, ?, ?, ?, ?, ?, now(), 0)";
   //console.log(req);
   let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
   let name = req.body.name;
@@ -126,8 +134,20 @@ app.post('/api/test', upload.single('image'),(req,res) =>{
     })
 })
 
-app.delete('/api/customers/:seq', (req,res) =>{
-  let sql = 'UPDATE masktable SET isDeleted = 1 WHERE seq = ?';
+// 손봐야함 쿼리 !!
+app.post('/api/searchPage', upload.single('image'),(req,res) =>{
+  let sql =  "INSERT INTO masktable VALUES ( null, ?, ?, ?, ?, ?, now(), 0)";
+  let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
+  let name = req.body.name;
+  let params = [name, image , birthday, gender, job];
+  db.query(sql, params, 
+    (err, rows, fields) =>{
+      res.send(rows);
+    })
+})
+
+app.delete('/api/user/:seq', (req,res) =>{
+  let sql = 'UPDATE user SET isDeleted = 1 WHERE seq = ?';
   let params = [req.params.seq];
   db.query(sql, params,(
     (err, rows, fields) => {

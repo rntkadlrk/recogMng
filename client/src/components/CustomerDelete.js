@@ -15,7 +15,7 @@ function CustomerDelete(props){
 
     const deleteCustomer = (props) => {
         console.log("지우기"+props.seq);
-        const url = '/api/customers/' + props.seq;
+        const url = '/api/user/' + props.seq;
         fetch(url, {
             method: 'DELETE'
         }).then(
@@ -42,8 +42,8 @@ function CustomerDelete(props){
                 삭제 경고
             </DialogTitle>
             <DialogContent>
-                <Typography gutterBottom>
-                    선택한 고객 정보가 삭제됩니다.
+                <Typography>
+                    선택한 사용자 정보가 삭제됩니다.
                 </Typography>
             </DialogContent>
             <DialogActions>

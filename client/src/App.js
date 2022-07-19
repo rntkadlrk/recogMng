@@ -5,7 +5,8 @@ import Customer from './components/Customer';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import AppBarPage from './components/AppBarPage';
-
+import Main from './components/Main';
+import SearchPage from './components/SearchPage';
 
 import {
   useNavigate,
@@ -13,6 +14,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import Search from '@mui/icons-material/Search';
 
 
 
@@ -42,8 +44,9 @@ function App() {
        <div id="progressBar" style={{transform: `scale(${scroll}, 1)`, opacity: `${scroll}`}} />
       </div>
         <Routes>
-          <Route exact path="/customers" element={<Customer/>}/>
-          <Route exact path="/test" element={<Customer/>}/>
+          <Route exact path="/" element={<Main/>}/>
+          <Route exact path="/user" element={<Customer/>}/>
+          <Route exact path="/searchPage" element={<SearchPage/>}/>
         </Routes>
         
       </div>
