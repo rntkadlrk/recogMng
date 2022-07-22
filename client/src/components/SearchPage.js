@@ -160,11 +160,14 @@ function SearchPage(){
                         <Button variant="contained" color="primary" component="span" name="file">
                             {FileName === "" ?"프로필 이미지 선택" : FileName}
                         </Button>
-                    </label>
+                    </label><br/>
                   <TextField label="이름으로 검색.."  type="text"  variant="standard" value={SearchName} onChange={onSearchHandler} ></TextField>
                   <TextField label=" " type="date"  variant="standard" />
 
                   <TextField label=" " type="date"  variant="standard" />
+                  <Button variant='contained' color="primary" component="span">
+                    검색
+                  </Button>
                 </Box>
               </Paper>
             </div>
