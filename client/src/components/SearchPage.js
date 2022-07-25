@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import post from 'axios';
 
+// map
+import Map from './KMap';
+
 // 디자인
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,6 +20,7 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -172,7 +176,23 @@ function SearchPage(){
               </Paper>
             </div>
           </Box>
-         
+          
+          <Paper sx={{
+                marginLeft: 3,
+                marginRight: 3,
+                backgroundColor: '#f3f6f4',
+              }}>
+            <Box
+                 sx={{
+                  marginTop: 2,
+                  marginBottom: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',}}
+            >
+              <Map></Map>
+            </Box>
+        </Paper>
         <Paper sx={{
           marginLeft: 3,
           marginRight: 3,
