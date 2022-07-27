@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 
+
 function CustomerAdd(){
 
     const [File, setFile] = useState('');
@@ -21,11 +22,37 @@ function CustomerAdd(){
     const [Job, setJob] = useState(''); 
     const [FileName, setFileName] = useState(''); 
     const [open, setOpen] = useState(false);
+    const [fileUrl, setFileUrl] = useState("")
+    
+    const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 100,
+        useWebWorker: true
+    }
 
-    const onFileHandler = (e) =>{
-        console.log(e.target.files[0])
-        setFile(e.target.files[0])
-        setFileName(e.currentTarget.value)
+    const onFileHandler = async (e) =>{
+        let file = e.target.files[0];	// 입력받은 file객체
+  
+        // 이미지 resize 옵션 설정 (최대 width을 100px로 지정)
+        const options = { 
+            maxSizeMB: 2, 
+            maxWidthOrHeight: 100
+        }
+        
+        try {
+          const compressedFile = await imageCompression(file, options);
+          setFile(compressedFile);
+          
+          // resize된 이미지의 url을 받아 fileUrl에 저장
+          const promise = imageCompression.getDataUrlFromFile(compressedFile);
+          promise.then(result => {
+              setFileUrl(result);
+          })
+        } catch (error) {
+            console.log(error);
+        }
+        setFileName(result)
+
     }
     const onUserNameHandler = (e) =>{
         setUserName(e.currentTarget.value)
@@ -114,6 +141,8 @@ function CustomerAdd(){
                             {FileName === "" ?"프로필 이미지 선택" : FileName}
                         </Button>
                     </label>
+                    
+      <img className="top_bar_profile_img" src={fileUrl} alt="profile_img" />
                     <br/><br/>
                     <TextField label=" " type="date" variant="standard" name="birthday" value={Birthday} onChange={onBirthdayHandler}/><br/>
                     <TextField required variant="standard" label="이름" type="text" name="userName" value={UserName} onChange={onUserNameHandler}/><br/>

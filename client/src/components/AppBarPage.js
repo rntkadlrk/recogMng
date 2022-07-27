@@ -67,7 +67,7 @@ function AppBarPage(){
     const navigate = useNavigate();
    // let dispatch = useDispatch();
 
-    const pages = ['USER', 'SEARCH','DEVICE'];
+    const pages = ['USER', 'DEVICE', 'SEARCH' ];
     const settings = ['Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
