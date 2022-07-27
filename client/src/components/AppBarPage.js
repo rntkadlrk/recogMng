@@ -67,7 +67,7 @@ function AppBarPage(){
     const navigate = useNavigate();
    // let dispatch = useDispatch();
 
-    const pages = ['USER', 'SEARCH'];
+    const pages = ['USER', 'SEARCH','DEVICE'];
     const settings = ['Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -88,6 +88,8 @@ function AppBarPage(){
         navigate('/user');
       }else if(Target === 'SEARCH'){
         navigate('/searchPage');
+      }else if(Target === 'DEVICE'){
+        navigate('/device')
       }
        
         // const Target = e.currentTarget.innerText;

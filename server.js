@@ -117,6 +117,13 @@ app.get('/api/searchPage', (req, res) => {
   })
 })
 
+app.get('/api/device', (req, res) => {
+  db.query('SELECT * FROM device WHERE isDeleted = 0 ORDER BY seq DESC', (err, data) => {
+    if(!err) res.send({ device : data});
+    else res.send(err);
+  })
+})
+
 app.use('/image',express.static('./upload'));
 
 app.post('/api/user', upload.single('image'),(req,res) =>{
@@ -131,6 +138,24 @@ app.post('/api/user', upload.single('image'),(req,res) =>{
   db.query(sql, params, 
     (err, rows, fields) =>{
       res.send(rows);
+      console.log(rows);
+    })
+})
+
+app.post('/api/device', upload.single('image'),(req,res) =>{
+  let sql  = "INSERT INTO device VALUES ( ?, ?, ?, null, 0, now())";
+  //console.log(req);
+  let devicename = req.body.devicename;
+  let serial = req.body.serial;
+  let addr = req.body.addr;
+  let params = [devicename, serial, addr];
+  db.query(sql, params, 
+    (err, rows, fields) =>{
+      res.send(rows);
+      if(err){
+        console.log(err);
+      }
+      console.log(rows);
     })
 })
 
@@ -148,6 +173,16 @@ app.post('/api/searchPage', upload.single('image'),(req,res) =>{
 
 app.delete('/api/user/:seq', (req,res) =>{
   let sql = 'UPDATE user SET isDeleted = 1 WHERE seq = ?';
+  let params = [req.params.seq];
+  db.query(sql, params,(
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  ))
+})
+
+app.delete('/api/device/:seq', (req,res) =>{
+  let sql = 'UPDATE device SET isDeleted = 1 WHERE seq = ?';
   let params = [req.params.seq];
   db.query(sql, params,(
     (err, rows, fields) => {

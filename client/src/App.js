@@ -7,6 +7,7 @@ import InputBase from '@mui/material/InputBase';
 import AppBarPage from './components/AppBarPage';
 import Main from './components/Main';
 import SearchPage from './components/SearchPage';
+import Device from './components/Device'
 
 import {
   useNavigate,
@@ -46,6 +47,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Main/>}/>
           <Route exact path="/user" element={<Customer/>}/>
+          <Route exact path="/device" element={<Device/>}/>
           <Route exact path="/searchPage" element={<SearchPage/>}/>
         </Routes>
         
