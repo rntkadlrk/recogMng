@@ -19,7 +19,19 @@ import { Typography } from '@mui/material';
 function Customer(){
    // const navigate = useNavigate();
     const [CustomersData, setCustomersData] = useState([]);
-    
+    const [Customers, setCustomers] = useState([]);
+
+    const stateRefresh = () => {
+      setCustomersData([]);
+      axios.get('/api/user')
+      .then(response => {
+        // 수행할 동작
+         console.log('호출됨!!')
+        
+        setCustomersData(response.data.customers);
+      })
+      
+    }
 
     useEffect(() => {
       axios.get('/api/user')
@@ -47,7 +59,7 @@ function Customer(){
                alignItems: 'center',
           }}>
           <div className="menu">
-           <CustomerAdd/>
+           <CustomerAdd stateRefresh={stateRefresh}/>
           </div>
           </Box>
          

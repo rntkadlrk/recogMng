@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 
 
-function CustomerAdd(){
+function CustomerAdd({stateRefresh}){
 
     const [File, setFile] = useState('');
     const [UserName, setUserName] = useState('');
@@ -73,6 +73,8 @@ function CustomerAdd(){
         addCustomer()
         .then((response) => {
             console.log(response.data);
+            stateRefresh();
+            clickCloseHandler();
         })
         setFile('');
         setUserName('');
@@ -81,8 +83,8 @@ function CustomerAdd(){
         setJob('');
         setFileName('');
         
-        window.location.reload();
-    }
+        //window.location.reload();
+    } 
 
     const clickOpenHandler = (e) =>{
         setOpen(true);
