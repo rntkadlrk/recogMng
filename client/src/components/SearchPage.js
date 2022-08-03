@@ -187,6 +187,7 @@ function SearchPage(){
                   marginTop: 2,
                   marginBottom: 2,
                   display: 'flex',
+                  width: '100%',
                   flexDirection: 'column',
                   alignItems: 'center',}}
             >

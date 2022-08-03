@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import CustomerAdd from './CustomerAdd';
+import imageCompression from 'browser-image-compression'; 
 
 // 디자인
 import Table from '@mui/material/Table';

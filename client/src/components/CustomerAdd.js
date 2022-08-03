@@ -135,6 +135,7 @@ function CustomerAdd(){
             <Dialog open={open} onClose={clickCloseHandler}>
                 <DialogTitle>사용자 추가</DialogTitle>
                 <DialogContent>
+                    <img className="top_bar_profile_img" src={fileUrl} alt="이미지 미리보기" />
                     <input className="hidden" type="file" accept="image/*" id="raised-button-file" file={File} value={FileName} onChange={onFileHandler}/><br/>
                     <label htmlFor="raised-button-file">
                         <Button variant="contained" color="primary" component="span" name="file">
@@ -142,7 +143,7 @@ function CustomerAdd(){
                         </Button>
                     </label>
                     
-      <img className="top_bar_profile_img" src={fileUrl} alt="profile_img" />
+     
                     <br/><br/>
                     <TextField label=" " type="date" variant="standard" name="birthday" value={Birthday} onChange={onBirthdayHandler}/><br/>
                     <TextField required variant="standard" label="이름" type="text" name="userName" value={UserName} onChange={onUserNameHandler}/><br/>
