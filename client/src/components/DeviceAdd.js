@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 
-function DeviceAdd(){
+function DeviceAdd({stateRefresh}){
 
     const [DeviceName, setDeviceName] = useState('');
     const [Serial, setSerial] = useState('');
@@ -34,12 +34,14 @@ function DeviceAdd(){
         addDevice()
         .then((response) => {
             console.log(response.data);
+            stateRefresh();
+            clickCloseHandler();
         })
         setDeviceName('');
         setSerial('');
         setAddr('');
         
-        window.location.reload();
+        
     }
 
     const clickOpenHandler = (e) =>{

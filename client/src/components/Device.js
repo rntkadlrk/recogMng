@@ -17,7 +17,17 @@ function Device(){
    // const navigate = useNavigate();
     const [DeviceData, setDeviceData] = useState([]);
     
+    const stateRefresh = () => {
+      setDeviceData([]);
+      axios.get('/api/device')
+      .then(response => {
+        // 수행할 동작
+        
+         setDeviceData(response.data.device);
+      })
+    }
 
+    
     useEffect(() => {
       axios.get('/api/device')
       .then(response => {
@@ -44,7 +54,7 @@ function Device(){
                alignItems: 'center',
           }}>
           <div className="menu">
-           <DeviceAdd/>
+           <DeviceAdd stateRefresh={stateRefresh}/>
           </div>
           </Box>
          
@@ -76,7 +86,7 @@ function Device(){
                   <TableCell>{rows.serial}</TableCell>
                   <TableCell>{rows.devicename}</TableCell>
                   <TableCell>{rows.addr}</TableCell>
-                  <TableCell><DeviceDelete seq={rows.seq}/></TableCell>
+                  <TableCell><DeviceDelete seq={rows.seq} stateRefresh={stateRefresh}/></TableCell>
                 </TableRow>
                 
               )})

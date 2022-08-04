@@ -9,17 +9,18 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography';
 
-function CustomerDelete(props){
+function CustomerDelete({seq, stateRefresh}){
 
     const [open,setOpen] = useState(false);
 
-    const deleteCustomer = (props) => {
-        console.log("지우기"+props.seq);
-        const url = '/api/user/' + props.seq;
+    const deleteCustomer = (seq) => {
+        
+        const url = '/api/user/' + seq;
         fetch(url, {
             method: 'DELETE'
         }).then(
-            window.location.reload()
+            stateRefresh(),
+            clickCloseHandler()
         );
         
        // 
@@ -47,7 +48,7 @@ function CustomerDelete(props){
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" color="primary" onClick={(e) => {deleteCustomer(props)}}>삭제</Button>
+                <Button variant="contained" color="primary" onClick={(e) => {deleteCustomer(seq)}}>삭제</Button>
                 <Button variant="outlined" color="primary" onClick={clickCloseHandler}>닫기</Button>
             </DialogActions>
         </Dialog>

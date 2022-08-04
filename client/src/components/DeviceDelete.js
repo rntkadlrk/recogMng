@@ -9,20 +9,20 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography';
 
-function DeviceDelete(props){
+function DeviceDelete({seq, stateRefresh}){
 
     const [open,setOpen] = useState(false);
-
-    const deleteDevice = (props) => {
+    
+    const deleteDevice = (seq) => {
         //console.log("지우기"+props.seq);
-        const url = '/api/device/' + props.seq;
+        const url = '/api/device/' + seq;
         fetch(url, {
             method: 'DELETE'
         }).then(
-            window.location.reload()
+            stateRefresh(),
+            clickCloseHandler()
         );
         
-       // 
     }
 
     const clickOpenHandler = (e) =>{
@@ -47,7 +47,7 @@ function DeviceDelete(props){
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" color="primary" onClick={(e) => {deleteDevice(props)}}>삭제</Button>
+                <Button variant="contained" color="primary" onClick={(e) => {deleteDevice(seq)}}>삭제</Button>
                 <Button variant="outlined" color="primary" onClick={clickCloseHandler}>닫기</Button>
             </DialogActions>
         </Dialog>
