@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import post from 'axios';
@@ -73,9 +75,10 @@ function SearchPage(){
     const [UserName, setUserName] = useState('');
     const [FileName, setFileName] = useState(''); 
     const [open, setOpen] = useState(false);
+    const [MapData, setMapData] = useState([]);
 
     const onFileHandler = (e) =>{
-      console.log(e.target.files[0])
+      //console.log(e.target.files[0])
       setFile(e.target.files[0])
       setFileName(e.currentTarget.value)
     }
@@ -85,42 +88,59 @@ function SearchPage(){
 
     const onSubmitHandler = (e) =>{
       e.preventDefault();
-      searchImage()
-      .then((response) => {
-          console.log(response.data);
-      })
-      setFile('');
-      setUserName('');
-      setFileName('');
+      searchSubmit();
+      // if(File){
+      //   searchImage();
+      // }else{
+      //   searchName();
+      // }
       
-      //window.location.reload();
     }
 
     const clickOpenHandler = (e) =>{
       setOpen(true);
     }
 
-    const searchImage = () =>{
+    const searchForMap = () =>{
+      // 맵용 서치 로직
+    }
+
+    const searchSubmit = (e) =>{
+      
       const url = '/api/searchPage';
       const formData = new FormData();
       formData.append('image', File)
-      formData.append('name', UserName);
-      const config={
-        headers: {
-            'content-type': 'multipart/form-data'
-        }
-      }
-      return post(url, formData, config);
+      formData.append('name', "ss");
+      // const config={
+      //   headers: {
+      //       'content-type': 'multipart/form-data'
+      //   }
+      // }
+      console.log("서브밋 정상");
+      return axios.post(url, formData)
+      .then( response => {
+        setHistoryData(response.data.history)
+      });
+
+      //  axios.get('/api/searchPage')
+      // .then(response => {
+      //   // 수행할 동작
+      //   // console.log(response)
+        
+      //   setHistoryData(response.data.history);
+      // })
+
     }
 
     useEffect(() => {
-      axios.get('/api/searchPage')
-      .then(response => {
-        // 수행할 동작
-         console.log(response)
+      // mapDataHandler();
+      // axios.get('/api/searchPage')
+      // .then(response => {
+      //   // 수행할 동작
+      //   // console.log(response)
         
-        setHistoryData(response.data.history);
-      })
+      //   setHistoryData(response.data.history);
+      // })
       
     }, []);
      
@@ -152,7 +172,7 @@ function SearchPage(){
               }}>
                 
                 <Box
-                  //component="form"
+                  component="form"
                   sx={{
                     '& > :not(style)': { m: 1, width: '25ch' },
                   }}
@@ -165,11 +185,11 @@ function SearchPage(){
                             {FileName === "" ?"프로필 이미지 선택" : FileName}
                         </Button>
                     </label><br/>
-                  <TextField label="이름으로 검색.."  type="text"  variant="standard" value={SearchName} onChange={onSearchHandler} ></TextField>
+                  <TextField label="이름으로 검색.."  type="text"  variant="standard" value={SearchName} onChange={onUserNameHandler} ></TextField>
                   <TextField label=" " type="date"  variant="standard" />
 
                   <TextField label=" " type="date"  variant="standard" />
-                  <Button variant='contained' color="primary" component="span">
+                  <Button variant='contained' color="primary" component="span" onClick={onSubmitHandler}>
                     검색
                   </Button>
                 </Box>
@@ -191,7 +211,7 @@ function SearchPage(){
                   flexDirection: 'column',
                   alignItems: 'center',}}
             >
-              <Map></Map>
+              <Map mapData={MapData}></Map>
             </Box>
         </Paper>
         <Paper sx={{
@@ -209,23 +229,25 @@ function SearchPage(){
                 <TableCell>성별</TableCell>
                 <TableCell>직업</TableCell>
                 <TableCell>시간</TableCell>
+                <TableCell>주소</TableCell>
               </TableRow>
             </TableHead> 
             
             <TableBody>
             
             {/* {Customer.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)})}  */}
-            {HistoryData.map((rows)=>{
+            {HistoryData.map((rows, index)=>{
               return(
                 
                 <TableRow key={rows.seq}>
-                  <TableCell>{rows.seq}</TableCell>
+                  <TableCell>{index+1}</TableCell>
                   <TableCell>{rows.image === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell>
                   <TableCell>{rows.name}</TableCell>
                   <TableCell>{rows.birthday}</TableCell>
                   <TableCell>{rows.gender}</TableCell>
                   <TableCell>{rows.job}</TableCell>
                   <TableCell>{rows.createDate}</TableCell>
+                  <TableCell>{rows.addr}</TableCell>
                   {/* <TableCell><CustomerDelete seq={rows.seq}/></TableCell> */}
                 </TableRow>
                 

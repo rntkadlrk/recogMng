@@ -110,11 +110,24 @@ app.get('/api/user', (req, res) => {
   })
 })
 
-app.get('/api/searchPage', (req, res) => {
-  db.query('SELECT * FROM masktable ORDER BY 1 DESC', (err, data) => {
-    if(!err) res.send({ history : data});
-    else res.send(err);
-  })
+// app.get('/api/searchPage', (req, res) => {
+//   db.query('select m.seq, m.image, m.name, m.birthday, m.gender, m.job, m.createDate, d.addr from masktable m inner join device d where m.serial = d.serial and d.isDeleted = 0 order by m.createDate ', (err, data) => {
+//     if(!err) {console.log("sssssss"); res.send({ history : data});}
+//     else res.send(err);
+//   })
+// })
+
+app.post('/api/searchPage', upload.single('image'),(req,res) =>{
+  console.log("요청 받음");
+  let sql =  "SELECT * FROM masktable";
+  let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
+  let name = req.body.name;
+  let params = [name];
+
+  db.query(sql, params, 
+    (err, data, fields) =>{
+      res.send({ history : data});
+    })
 })
 
 app.get('/api/device', (req, res) => {
@@ -160,16 +173,18 @@ app.post('/api/device', upload.single('image'),(req,res) =>{
 })
 
 // 손봐야함 쿼리 !!
-app.post('/api/searchPage', upload.single('image'),(req,res) =>{
-  let sql =  "INSERT INTO masktable VALUES ( null, ?, ?, ?, ?, ?, now(), 0)";
-  let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
-  let name = req.body.name;
-  let params = [name, image , birthday, gender, job];
-  db.query(sql, params, 
-    (err, rows, fields) =>{
-      res.send(rows);
-    })
-})
+// app.post('/api/searchPage', upload.single('image'),(req,res) =>{
+//   let sql =  "INSERT INTO masktable VALUES ( null, ?, ?, ?, ?, ?, now(), 0)";
+//   let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
+//   let name = req.body.name;
+//   let params = [name, image , birthday, gender, job];
+//   db.query(sql, params, 
+//     (err, rows, fields) =>{
+//       res.send(rows);
+//     })
+// })
+
+
 
 app.delete('/api/user/:seq', (req,res) =>{
   let sql = 'UPDATE user SET isDeleted = 1 WHERE seq = ?';

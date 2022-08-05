@@ -1,8 +1,10 @@
 /*global kakao*/ 
+/* eslint-disable */
+
 import React, { useEffect } from 'react'
 import axios from 'axios';
 
-const Map=()=>{
+const Map=({mapData})=>{
 
   useEffect(()=>{
 
@@ -18,7 +20,7 @@ const Map=()=>{
 
     var map = new kakao.maps.Map(container, options);
     var geocoder = new kakao.maps.services.Geocoder();
-
+    console.log(mapData);
     var listData = [
         {
             addr: '제주특별자치도 제주시 첨단로 242', 
@@ -74,7 +76,7 @@ const Map=()=>{
 
     return (
         <div>
-        	<div id="map" style={{ width: "80vw", height:"640px", margin: "0"}}></div> 
+        	<div id="map" style={{ width: "90vw", height:"640px", margin: "0"}}></div> 
         </div>
     )
 }
