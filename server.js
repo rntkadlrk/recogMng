@@ -20,89 +20,6 @@ app.use(cookieParser());
 // }).then(() => console.log('DB Connected...')).catch(err => console.log(err));
 
 
-app.get('/api/customers', (req, res) => {
-   console.log("customers API");
-
-   res.send({
-  
-    customers: [{
-      'id':1,
-      'image' : 'https://placeimg.com/64/64/1',
-      'name' : '홍길동',
-      'birthday' : '111111',
-      'gender' : '남자',
-      'job' : '대학생'
-    },
-    {
-      'id':2,
-      'image' : 'https://placeimg.com/64/64/2',
-      'name' : '홍길동',
-      'birthday' : '222222',
-      'gender' : '남자',
-      'job' : '프로그래머'
-    }
-    ,{
-      'id':3,
-      'image' : 'https://placeimg.com/64/64/3',
-      'name' : '홍길동',
-      'birthday' : '333333',
-      'gender' : '남자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-    ,{
-      'id':4,
-      'image' : 'https://placeimg.com/64/64/4',
-      'name' : '홍길동',
-      'birthday' : '444444',
-      'gender' : '여자',
-      'job' : '디자이너'
-    }
-  ]});
-      
-});
-
-
-
 app.get('/api/user', (req, res) => {
   db.query('SELECT * FROM user WHERE isDeleted = 0', (err, data) => {
     if(!err) res.send({ customers : data});
@@ -110,23 +27,33 @@ app.get('/api/user', (req, res) => {
   })
 })
 
-// app.get('/api/searchPage', (req, res) => {
-//   db.query('select m.seq, m.image, m.name, m.birthday, m.gender, m.job, m.createDate, d.addr from masktable m inner join device d where m.serial = d.serial and d.isDeleted = 0 order by m.createDate ', (err, data) => {
-//     if(!err) {console.log("sssssss"); res.send({ history : data});}
-//     else res.send(err);
-//   })
-// })
+app.get('/api/searchPage', (req, res) => {
+  db.query('select m.seq, m.imageRoute, m.name, m.maskDetect, m.temperature, m.frameDate, m.frameTime, d.addr from masktable m inner join device d where m.serial = d.serial and d.isDeleted = 0 order by m.frameDate ', (err, data) => {
+    if(!err) {console.log("정상요청"); res.send({ history : data});}
+    else res.send(err);
+  })
+})
 
 app.post('/api/searchPage', upload.single('image'),(req,res) =>{
   console.log("요청 받음");
-  let sql =  "SELECT * FROM masktable";
-  let image = (req.file === undefined ? 'null': ('http://localhost:5001/image/' + req.file.filename));
+  let sql =  "select m.seq, m.imageRoute, m.name, m.maskDetect, m.temperature, m.frameDate, m.frameTime, d.addr " +
+  "from masktable m inner join device d " + 
+  "where m.serial = d.serial and d.isDeleted = 0 and m.name like ? and frameDate between ? and ? " + 
+  "order by m.frameDate and m.frameTime";
+  //let image = (req.files === undefined ? 'null': ('http://localhost:5001/image/' + req.files.filename));
+  let route = req.body.route;
   let name = req.body.name;
-  let params = [name];
+  let fdate = req.body.fromDate;
+  let tdate = req.body.toDate;
+  let params = ['%'+name+'%', fdate, tdate];
 
+  console.log(sql)
   db.query(sql, params, 
     (err, data, fields) =>{
-      res.send({ history : data});
+      res.send({ history : data})
+      if(err){
+        console.log(err);
+      };
     })
 })
 
@@ -168,7 +95,7 @@ app.post('/api/device', upload.single('image'),(req,res) =>{
       if(err){
         console.log(err);
       }
-      console.log(rows);
+      //console.log(rows);
     })
 })
 
