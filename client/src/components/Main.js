@@ -119,18 +119,18 @@ function Main(){
             
             <TableBody>
             
-            {/* {Customer.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)})}  */}
-            {HistoryData.map((rows)=>{
+           
+            {HistoryData && HistoryData.map((rows)=>{
               return(
                 
                 <TableRow key={rows.seq}>
                   <TableCell>{rows.seq}</TableCell>
-                  <TableCell>{rows.image === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell>
+                  <TableCell>{rows.imageRoute === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell>
                   <TableCell>{rows.name}</TableCell>
-                  <TableCell>{rows.birthday}</TableCell>
-                  <TableCell>{rows.gender}</TableCell>
-                  <TableCell>{rows.job}</TableCell>
-                  <TableCell>{rows.createDate}</TableCell>
+                  <TableCell>{rows.maskDetect}</TableCell>
+                  <TableCell>{rows.temperature}</TableCell>
+                  <TableCell>{rows.serial}</TableCell>
+                  <TableCell>{rows.frameDate}</TableCell>
                   {/* <TableCell><CustomerDelete seq={rows.seq}/></TableCell> */}
                 </TableRow>
                 

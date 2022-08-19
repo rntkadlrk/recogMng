@@ -24,12 +24,6 @@ function CustomerAdd({stateRefresh}){
     const [open, setOpen] = useState(false);
     const [fileUrl, setFileUrl] = useState("")
     
-    const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 100,
-        useWebWorker: true
-    }
-
     const onFileHandler = async (e) =>{
         let file = e.target.files[0];	// 입력받은 file객체
   

@@ -4,7 +4,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
 
-const Map=({mapData})=>{
+const Map=(props)=>{
 
   useEffect(()=>{
 
@@ -20,37 +20,11 @@ const Map=({mapData})=>{
 
     var map = new kakao.maps.Map(container, options);
     var geocoder = new kakao.maps.services.Geocoder();
-    console.log(mapData);
-    var listData = [
-        {
-            addr: '제주특별자치도 제주시 첨단로 242', 
-            name: '홍길동',
-        },
-        {
-            addr: '제주특별자치도 제주시 첨단로 241', 
-            name: '홍길동',
-        },
-        {
-            addr: '서울특별시 송파구 오금로13길 8', 
-            name: '홍길동',
-        },
-        {
-            addr: '서울특별시 송파구 올림픽로 25', 
-            name: '홍길동',
-        },
-        {
-            addr: '서울특별시 광진구 동일로18길 80', 
-            name: '홍길동',
-        },
-        {
-            addr: '서울특별시 성북구 인촌로 73', 
-            name: '홍길동',
-        },
-       
-     
-    ];
+    //console.log("여기"+JSON.stringify(props.searchData));
 
-    listData.map(function(data, index) {
+    var searchData = props.searchData;
+
+    searchData.map(function(data, index) {
         geocoder.addressSearch(data.addr, function(result, status) {
             if (status === kakao.maps.services.Status.OK) {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
