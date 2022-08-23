@@ -69,18 +69,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 function SearchPage(){
-   
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+    var dateString = year + '-' + month  + '-' + day;
+    
     const [HistoryData, setHistoryData] = useState([]);
     const [SearchName, setSearchName] = useState('');
     const [Files, setFiles] = useState('');
     const [UserName, setUserName] = useState('');
     const [FileName, setFileName] = useState(''); 
     const [open, setOpen] = useState(false);
-    const [MapData, setMapData] = useState([]);
+   // const [MapData, setMapData] = useState([]);
     const [FileUrl, setFileUrl] = useState("");
-    const [FromDate, setFromDate] = useState("");
-    const [ToDate, setToDate] = useState("");
+    const [FromDate, setFromDate] = useState(dateString);
+    const [ToDate, setToDate] = useState(dateString);
     
+   
     let map = <Map searchData={HistoryData}></Map>;
     const [Base64data, setBase64Data] = useState('');
 
@@ -118,72 +124,36 @@ function SearchPage(){
       setFileName(result)
 
     }
-
-    const handlingDataForm = async dataURI => {
-      // dataURL 값이 data:image/jpeg:base64,~~~~~~~ 이므로 ','를 기점으로 잘라서 ~~~~~인 부분만 다시 인코딩
-      const byteString = atob(dataURI.split(",")[1]);
-    
-      // Blob를 구성하기 위한 준비, 이 내용은 저도 잘 이해가 안가서 기술하지 않았습니다.
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([ia], {
-        type: "image/jpeg"
-      });
-      const file = new File([blob], "image.jpg");
-    
-      // 위 과정을 통해 만든 image폼을 FormData에 넣어줍니다.
-      // 서버에서는 이미지를 받을 때, FormData가 아니면 받지 않도록 세팅해야합니다.
-      const formData = new FormData();
-      formData.append("representative_avatar", file);
-    
-      // 필요시 더 추가합니다.
-      formData.append("name", "nkh");
-      formData.append("email", "noh5524@gmail.com");
-    
-      try {
-        //const changeAvatar = await formData;
-        //alert(JSON.stringify(formData));
-      } catch (error) {
-        alert(error);
-      }
-    };
- 
-    
+    const onTruncateHandler = (e) =>{
+      setFileUrl("");
+    }
     const onFromDateHandler = (e) =>{
-          setFromDate(e.currentTarget.value);
+        setFromDate(e.currentTarget.value);
     }
     const onToDateHandler = (e) =>{
       setToDate(e.currentTarget.value);
-}
+    }
     const onUserNameHandler = (e) =>{
-        setUserName(e.currentTarget.value);
-        setSearchName(e.currentTarget.value);
+      setUserName(e.currentTarget.value);
+      setSearchName(e.currentTarget.value);
     }
 
     const onSubmitHandler = (e) =>{
       e.preventDefault();
       searchSubmit();
-      // if(File){
-      //   searchImage();
-      // }else{
-      //   searchName();
-      // }
-      
     }
     //console.log(HistoryData)
     const clickOpenHandler = (e) =>{
       setOpen(true);
     }
 
-    const searchForMap = () =>{
-      // 맵용 서치 로직
-    }
-
     const searchSubmit = (e) =>{
-      
+      setHistoryData([]);
+
+      if(!FromDate || !ToDate){
+        alert("날짜를 입력해주세요");
+        return false;
+      }
       let url = '/api/searchPage';
       const formData = new FormData();
       //formData.append('image', Files)
@@ -191,8 +161,6 @@ function SearchPage(){
       formData.append('fromDate', FromDate);
       formData.append('toDate', ToDate);
      
-      //console.log(Base64data.split(",")[1]);
-
       //이미지로 검색할 경우
       if(Base64data){
         const imageUrl = '/find';
@@ -207,63 +175,49 @@ function SearchPage(){
        
         return axios.post(imageUrl, imageData, config)
         .then( response=> {
-          console.log(response.data[0]);
-          // 쿼리 작성
-          response.data.map((rows,index)=>{
-            formData.append('route', rows );
-          })
+          console.log(response.data);
+          // GPU서버에서 받아온 데이터를 로컬 서버 맵 컴포넌트로 넘기기위해 POST 요청으로 데이터 조회를 실시합니다.
+          response.data.map((rows) => {
+            formData.append('route[]',rows);
+          });
+          
           return axios.post(url, formData)
           .then( response => {
-        
-            console.log(response.data.history)
+            // 조회해온 데이터를 테이블에 뿌립니다.
+            // console.log(response.data)
+            if(!response.data.history.length){
+              alert("결과가 없습니다!");
+            }
             setHistoryData(response.data.history)
           
           });
         });
+      }else if(!SearchName){
+        alert("이미지 또는 이름을 입력해주세요.");
+        return false;
       }
-      console.log("서브밋 정상");
+      //console.log("서브밋 정상");
       
       return axios.post(url, formData)
       .then( response => {
-        
-        console.log(response.data.history)
+        // 이름으로 조회시 GPU 서버 조회를 생략합니다.
+        //console.log(response.data.history)
+        if(!response.data.history.length){
+          alert("결과가 없습니다!");
+        }
         setHistoryData(response.data.history)
-      
-      });
-
-      //  axios.get('/api/searchPage')
-      // .then(response => {
-      //   // 수행할 동작
-      //   // console.log(response)
         
-      //   setHistoryData(response.data.history);
-      // })
-
+      });
     }
 
     useEffect(() => {
-      // mapDataHandler();
-      // axios.get('/api/searchPage')
-      // .then(response => {
-      //   // 수행할 동작
-      //   // console.log(response)
-        
-      //   setHistoryData(response.data.history);
-      // })
-      
+    
     }, []);
      
-
     const onSearchHandler = (e) =>{
-      
       setSearchName(e.currentTarget.value)
     }
   
-
-    // const test = customersData.map((item, index) =>{
-        
-    // })
-
     return (
       <div>
          <Box sx={{
@@ -273,6 +227,16 @@ function SearchPage(){
                flexDirection: 'column',
                //alignItems: 'center',
           }}>
+            <Box sx={{
+               marginTop: 2,
+               marginBottom: 2,
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center',
+          }}>
+          사진과 이름 모두 입력시 사진이 우선 조건이 됩니다.
+          </Box>
+           
             <div className="menu">
               <Paper sx={{
                 marginLeft: 3,
@@ -288,13 +252,20 @@ function SearchPage(){
                   noValidate
                   autoComplete="off"
                 >
-                    <img className="top_bar_profile_img" src={FileUrl} alt="이미지 미리보기" />
+                    <img className={FileUrl === "" ? "hidden" : ""} src={FileUrl} alt="이미지 미리보기" />
                     <input className="hidden" type="file" accept="image/*" id="raised-button-file" file={Files} value={FileName} onChange={onFileHandler}/><br/>
                     <label htmlFor="raised-button-file">
                         <Button variant="contained" color="primary" component="span" name="file">
-                            {FileName === "" ?"프로필 이미지 선택" : FileName}
+                            {FileName === "" ? "검색 이미지 선택" : FileName}
                         </Button>
-                    </label><br/>
+
+                    </label>
+                    {FileUrl === "" ? "" : 
+                        <Button variant="contained" color="primary" component="span" onClick={onTruncateHandler} >
+                            사진 비우기
+                        </Button>
+                        }
+                    <br/>
                   <TextField label="이름으로 검색.."  type="text"  variant="standard" value={SearchName} onChange={onUserNameHandler} ></TextField>
                   <TextField label=" " type="date"  variant="standard" value={FromDate} onChange={onFromDateHandler}/>
 

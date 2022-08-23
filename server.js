@@ -45,16 +45,48 @@ app.post('/api/searchPage', upload.single('image'),(req,res) =>{
   let name = req.body.name;
   let fdate = req.body.fromDate;
   let tdate = req.body.toDate;
-  let params = ['%'+name+'%', fdate, tdate];
+  let params = ['%'+name+'%', fdate, tdate];;
 
-  console.log(sql)
-  db.query(sql, params, 
+  //console.log(route); // 잘받음. 배열로 왔을 경우 어떻게 처리할지 짜면 끝
+  if(route){
+    const arrFaceLength = route.length;
+    sql = "SELECT m.seq, m.imageRoute, m.name, m.maskDetect, m.temperature, m.frameDate, m.frameTime, d.addr from masktable m inner join device d where m.serial = d.serial and d.isDeleted = 0 and imageRoute in (" 
+    //console.log(name);
+    route.map((rows, index) => {
+      sql += "'" + rows +"'"
+
+      if(arrFaceLength === index+1){
+        sql += ") and "
+        if(!name == ''){
+          sql += "m.name like ? and "
+        }else{
+          params = [fdate, tdate];
+        }
+        sql +="frameDate between ? and ? order by m.frameDate and m.frameTime "
+      }else{
+        sql += ", "
+      }
+
+    })
+   console.log(sql)
+   console.log(params)
+   db.query(sql, params, 
     (err, data, fields) =>{
       res.send({ history : data})
       if(err){
         console.log(err);
       };
     })
+  }else{
+    db.query(sql, params, 
+      (err, data, fields) =>{
+        res.send({ history : data})
+        if(err){
+          console.log(err);
+        };
+      })
+  }
+ 
 })
 
 app.get('/api/device', (req, res) => {

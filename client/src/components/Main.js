@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
@@ -121,6 +122,7 @@ function Main(){
             
            
             {HistoryData && HistoryData.map((rows)=>{
+              console.log(HistoryData);
               return(
                 
                 <TableRow key={rows.seq}>
