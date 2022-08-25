@@ -95,8 +95,9 @@ app.get('/api/device', (req, res) => {
     else res.send(err);
   })
 })
-
 app.use('/image',express.static('./upload'));
+//app.use('/image',express.static('./client/public/userImages'));
+//app.use('/image',express.static('http://192.168.250.191:4000/Pictures'));
 
 app.post('/api/user', upload.single('image'),(req,res) =>{
   let sql  = "INSERT INTO user VALUES ( null, ?, ?, ?, ?, ?, now(), 0)";

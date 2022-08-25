@@ -304,7 +304,7 @@ function SearchPage(){
             <TableHead>
               <TableRow>
                 <TableCell>순서</TableCell>
-                <TableCell>이미지</TableCell>
+                {/* <TableCell>이미지</TableCell> */}
                 <TableCell>이름</TableCell>
                 <TableCell>마스크</TableCell>
                 <TableCell>온도</TableCell>
@@ -324,7 +324,7 @@ function SearchPage(){
                   return(
                     <TableRow key={rows.seq}>
                       <TableCell>{index+1}</TableCell>
-                      <TableCell>{rows.imageRoute === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell>
+                      {/* <TableCell>{rows.imageRoute === 'null' ? "이미지없음":<img src={rows.image} alt="profile"/>}</TableCell> */}
                       <TableCell>{rows.name}</TableCell>
                       <TableCell>{rows.maskDetect}</TableCell>
                       <TableCell>{rows.temperature}</TableCell>
@@ -335,7 +335,7 @@ function SearchPage(){
                     </TableRow>
                     
                   )
-                
+              
              })
             }
             
